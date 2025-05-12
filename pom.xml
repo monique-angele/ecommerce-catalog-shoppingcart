@@ -1,0 +1,124 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+             http://maven.apache.org/POM/4.0.0 
+             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>ecommerce-catalog-shoppingcart</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>E-Commerce Catalog &amp; Shopping Cart</name>
+  <description>A simple product catalog and shopping cart system demo.</description>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <!-- SonarQube server URL -->
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+     <sonarLogin>YOUR_SONAR_TOKEN</sonarLogin>
+    
+    <!-- Tomcat settings if using the Maven Tomcat plugin -->
+    <tomcat.port>8080</tomcat.port>
+    <tomcat.username>admin</tomcat.username>
+    <tomcat.password>admin</tomcat.password>
+  </properties>
+
+  <dependencies>
+    <!-- Servlet API (provided by the container) -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- JSTL for JSP support -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <!-- JUnit for testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Compiler plugin -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+      
+      <!-- WAR plugin -->
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      
+      <!-- Tomcat plugin for deployment (optional configuration) -->
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <url>http://localhost:${tomcat.port}/manager/text</url>
+          <server>TomcatServer</server>
+          <path>/ecommerce-catalog-shoppingcart</path>
+        </configuration>
+      </plugin>
+      
+      <!-- SonarQube Maven plugin -->
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.9.1.2184</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Nexus Releases</name>
+      <url>http://your-nexus-server/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Nexus Snapshots</name>
+      <url>http://your-nexus-server/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <profiles>
+    <!-- Sonar profile -->
+    <profile>
+      <id>sonar</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <sonar.projectKey>ecommerce-catalog-shoppingcart</sonar.projectKey>
+        <sonar.projectName>E-Commerce Catalog &amp; Shopping Cart</sonar.projectName>
+        <sonar.projectVersion>${project.version}</sonar.projectVersion>
+      </properties>
+    </profile>
+  </profiles>
+</project>
